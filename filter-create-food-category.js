@@ -10,11 +10,11 @@ export async function FilterCreateOnlyForAdmin(session, inputData, context) {
     return user.restaurants.some(restaurant => restaurant.id === inputData.restaurant.connect.id)
 }
 
-export async function FilterAdminRestaurants (session, context ) {
-    const users = await context.query.User.findMany({
-        where: { id: session.itemId },
-        query: 'id name restaurants{ id }'
-    })
+export function FilterAdminFoodCategory (session) {
     
-    return true
+    return { restaurant: {user: { id: {equals: session.itemId}}}}
+}
+
+export const FilterAdminRestaurants = (session) => {
+    return {user: {id: { equals: session.itemId}}}
 }

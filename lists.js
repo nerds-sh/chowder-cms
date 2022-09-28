@@ -3,7 +3,7 @@ import { text, password, checkbox, relationship } from '@keystone-6/core/fields'
 
 import { isAdmin, session } from './auth';
 import { FilterRestaurantsFoodCategories } from './filter-restaurant-food-categories';
-import {FilterAdminRestaurants, FilterCreateOnlyForAdmin} from './filter-create-food-category';
+import {FilterAdminFoodCategory, FilterAdminRestaurants, FilterCreateOnlyForAdmin} from './filter-create-food-category';
 import { FilterAdminUsers } from './filter-admin-users';
 
 export const lists = {
@@ -19,7 +19,7 @@ export const lists = {
         restaurants: relationship({ ref: "Restaurant.user", many: true, 
             ui: {
                 hideCreate: true
-            } })  
+            } })
       },
         access: {
           operation: {
@@ -49,7 +49,10 @@ export const lists = {
                 update: isAdmin,
                 delete: isAdmin,
             },
-        }
+        filter: {
+            query: ({ session} ) => FilterAdminRestaurants(session)
+        },
+        },
     }),
     FoodCategory: list({
         fields: {
@@ -69,9 +72,9 @@ export const lists = {
                 update: isAdmin,
                 delete: isAdmin,
               },
-            item:{
-                create: ({session, inputData, context}) => FilterCreateOnlyForAdmin(session, inputData, context)
-            }
+            filter: {
+                query: ({ session} ) => FilterAdminFoodCategory(session)
+            },
         }
     }),
     

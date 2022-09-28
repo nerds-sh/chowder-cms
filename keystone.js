@@ -38,7 +38,7 @@ export default withAuth(
       }
     },
     server: {
-      port: 5003,
+      port: 5001,
       cors: true
     },
     ui: {
