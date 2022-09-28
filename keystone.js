@@ -28,6 +28,9 @@ export default withAuth(
       provider: 'sqlite',
       url: 'file:./keystone.db',
     },
+    server: {
+      port: 5003
+    },
     ui: {
       // For our starter, we check that someone has session data before letting them see the Admin UI.
       isAccessAllowed: (context) => !!context.session,
