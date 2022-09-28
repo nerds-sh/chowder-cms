@@ -103,6 +103,56 @@ input UserCreateInput {
   isAdmin: Boolean
 }
 
+type Restaurant {
+  id: ID!
+  name: String
+  user: User
+}
+
+input RestaurantWhereUniqueInput {
+  id: ID
+}
+
+input RestaurantWhereInput {
+  AND: [RestaurantWhereInput!]
+  OR: [RestaurantWhereInput!]
+  NOT: [RestaurantWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  user: UserWhereInput
+}
+
+input RestaurantOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input RestaurantUpdateInput {
+  name: String
+  user: UserRelateToOneForUpdateInput
+}
+
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+}
+
+input RestaurantUpdateArgs {
+  where: RestaurantWhereUniqueInput!
+  data: RestaurantUpdateInput!
+}
+
+input RestaurantCreateInput {
+  name: String
+  user: UserRelateToOneForCreateInput
+}
+
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 type FoodCategory {
   id: ID!
   name: String
@@ -132,12 +182,6 @@ input FoodCategoryUpdateInput {
   user: UserRelateToOneForUpdateInput
 }
 
-input UserRelateToOneForUpdateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-}
-
 input FoodCategoryUpdateArgs {
   where: FoodCategoryWhereUniqueInput!
   data: FoodCategoryUpdateInput!
@@ -146,11 +190,6 @@ input FoodCategoryUpdateArgs {
 input FoodCategoryCreateInput {
   name: String
   user: UserRelateToOneForCreateInput
-}
-
-input UserRelateToOneForCreateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
 }
 
 """
@@ -168,6 +207,15 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  createRestaurant(data: RestaurantCreateInput!): Restaurant
+  createRestaurants(data: [RestaurantCreateInput!]!): [Restaurant]
+  updateRestaurant(
+    where: RestaurantWhereUniqueInput!
+    data: RestaurantUpdateInput!
+  ): Restaurant
+  updateRestaurants(data: [RestaurantUpdateArgs!]!): [Restaurant]
+  deleteRestaurant(where: RestaurantWhereUniqueInput!): Restaurant
+  deleteRestaurants(where: [RestaurantWhereUniqueInput!]!): [Restaurant]
   createFoodCategory(data: FoodCategoryCreateInput!): FoodCategory
   createFoodCategories(data: [FoodCategoryCreateInput!]!): [FoodCategory]
   updateFoodCategory(
@@ -215,6 +263,14 @@ type Query {
   ): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
+  restaurants(
+    where: RestaurantWhereInput! = {}
+    orderBy: [RestaurantOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Restaurant!]
+  restaurant(where: RestaurantWhereUniqueInput!): Restaurant
+  restaurantsCount(where: RestaurantWhereInput! = {}): Int
   foodCategories(
     where: FoodCategoryWhereInput! = {}
     orderBy: [FoodCategoryOrderByInput!]! = []

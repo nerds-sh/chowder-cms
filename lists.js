@@ -27,6 +27,28 @@ export const lists = {
          },
         }
     }),
+    Restaurant: list({
+        fields: {
+            name: text({validation: { isRequired:true }}),
+            user: relationship({
+                ref: 'User',
+                ui: {
+                    hideCreate: true,
+                    removeMode: 'disconnect',
+                },
+            }),
+        },
+        access: {
+            operation: {
+                create: isAdmin,
+                update: isAdmin,
+                delete: isAdmin,
+            },
+            item: {
+                create: ({ session, inputData }) => FilterCreateOnlyForAdmin(session, inputData),
+            }
+        }
+    }),
     FoodCategory: list({
         fields: {
             name: text({ validation: { isRequired: true } }),
@@ -52,4 +74,5 @@ export const lists = {
              }
         }
     }),
+    
   }
