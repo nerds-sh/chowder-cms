@@ -29,7 +29,8 @@ export default withAuth(
       url: 'file:./keystone.db',
     },
     server: {
-      port: 5003
+      port: 5003,
+      cors: true
     },
     ui: {
       // For our starter, we check that someone has session data before letting them see the Admin UI.
