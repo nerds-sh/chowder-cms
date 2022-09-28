@@ -19,10 +19,8 @@ export const lists = {
       },
         access: {
           operation: {
-            query: ({ session, context})
             create: isAdmin,
             delete: isAdmin,
-            update: isAdmin
           },
           filter: {
             query: ({session}) => FilterAdminUsers(session),
