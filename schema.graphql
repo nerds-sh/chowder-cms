@@ -7,6 +7,13 @@ type User {
   email: String
   password: PasswordState
   isAdmin: Boolean
+  restaurants(
+    where: RestaurantWhereInput! = {}
+    orderBy: [RestaurantOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Restaurant!]
+  restaurantsCount(where: RestaurantWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -26,6 +33,7 @@ input UserWhereInput {
   name: StringFilter
   email: StringFilter
   isAdmin: BooleanFilter
+  restaurants: RestaurantManyRelationFilter
 }
 
 input IDFilter {
@@ -72,6 +80,12 @@ input BooleanFilter {
   not: BooleanFilter
 }
 
+input RestaurantManyRelationFilter {
+  every: RestaurantWhereInput
+  some: RestaurantWhereInput
+  none: RestaurantWhereInput
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -89,6 +103,14 @@ input UserUpdateInput {
   email: String
   password: String
   isAdmin: Boolean
+  restaurants: RestaurantRelateToManyForUpdateInput
+}
+
+input RestaurantRelateToManyForUpdateInput {
+  disconnect: [RestaurantWhereUniqueInput!]
+  set: [RestaurantWhereUniqueInput!]
+  create: [RestaurantCreateInput!]
+  connect: [RestaurantWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -101,6 +123,12 @@ input UserCreateInput {
   email: String
   password: String
   isAdmin: Boolean
+  restaurants: RestaurantRelateToManyForCreateInput
+}
+
+input RestaurantRelateToManyForCreateInput {
+  create: [RestaurantCreateInput!]
+  connect: [RestaurantWhereUniqueInput!]
 }
 
 type Restaurant {
@@ -156,7 +184,7 @@ input UserRelateToOneForCreateInput {
 type FoodCategory {
   id: ID!
   name: String
-  user: User
+  restaurant: Restaurant
 }
 
 input FoodCategoryWhereUniqueInput {
@@ -169,7 +197,7 @@ input FoodCategoryWhereInput {
   NOT: [FoodCategoryWhereInput!]
   id: IDFilter
   name: StringFilter
-  user: UserWhereInput
+  restaurant: RestaurantWhereInput
 }
 
 input FoodCategoryOrderByInput {
@@ -179,7 +207,13 @@ input FoodCategoryOrderByInput {
 
 input FoodCategoryUpdateInput {
   name: String
-  user: UserRelateToOneForUpdateInput
+  restaurant: RestaurantRelateToOneForUpdateInput
+}
+
+input RestaurantRelateToOneForUpdateInput {
+  create: RestaurantCreateInput
+  connect: RestaurantWhereUniqueInput
+  disconnect: Boolean
 }
 
 input FoodCategoryUpdateArgs {
@@ -189,7 +223,12 @@ input FoodCategoryUpdateArgs {
 
 input FoodCategoryCreateInput {
   name: String
-  user: UserRelateToOneForCreateInput
+  restaurant: RestaurantRelateToOneForCreateInput
+}
+
+input RestaurantRelateToOneForCreateInput {
+  create: RestaurantCreateInput
+  connect: RestaurantWhereUniqueInput
 }
 
 """

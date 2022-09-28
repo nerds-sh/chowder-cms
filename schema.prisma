@@ -13,29 +13,29 @@ generator client {
 }
 
 model User {
-  id                     String         @id @default(cuid())
-  name                   String         @default("")
-  email                  String         @unique @default("")
-  password               String
-  isAdmin                Boolean        @default(false)
-  from_Restaurant_user   Restaurant[]   @relation("Restaurant_user")
-  from_FoodCategory_user FoodCategory[] @relation("FoodCategory_user")
+  id          String       @id @default(cuid())
+  name        String       @default("")
+  email       String       @unique @default("")
+  password    String
+  isAdmin     Boolean      @default(false)
+  restaurants Restaurant[] @relation("Restaurant_user")
 }
 
 model Restaurant {
-  id     String  @id @default(cuid())
-  name   String  @default("")
-  user   User?   @relation("Restaurant_user", fields: [userId], references: [id])
-  userId String? @map("user")
+  id                           String         @id @default(cuid())
+  name                         String         @default("")
+  user                         User?          @relation("Restaurant_user", fields: [userId], references: [id])
+  userId                       String?        @map("user")
+  from_FoodCategory_restaurant FoodCategory[] @relation("FoodCategory_restaurant")
 
   @@index([userId])
 }
 
 model FoodCategory {
-  id     String  @id @default(cuid())
-  name   String  @default("")
-  user   User?   @relation("FoodCategory_user", fields: [userId], references: [id])
-  userId String? @map("user")
+  id           String      @id @default(cuid())
+  name         String      @default("")
+  restaurant   Restaurant? @relation("FoodCategory_restaurant", fields: [restaurantId], references: [id])
+  restaurantId String?     @map("restaurant")
 
-  @@index([userId])
+  @@index([restaurantId])
 }

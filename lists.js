@@ -3,7 +3,7 @@ import { text, password, checkbox, relationship } from '@keystone-6/core/fields'
 
 import { isAdmin, session } from './auth';
 import { FilterRestaurantsFoodCategories } from './filter-restaurant-food-categories';
-import { FilterCreateOnlyForAdmin } from './filter-create-food-category';
+import {FilterAdminRestaurants, FilterCreateOnlyForAdmin} from './filter-create-food-category';
 import { FilterAdminUsers } from './filter-admin-users';
 
 export const lists = {
@@ -15,7 +15,11 @@ export const lists = {
           isIndexed: 'unique',
           isFilterable:  true }),
         password: password({ validation: { isRequired: true } }),
-        isAdmin: checkbox ({ validation: { isRequired: true }, }),
+        isAdmin: checkbox ({ validation: { isRequired: true } }),
+        restaurants: relationship({ ref: "Restaurant.user", many: true, 
+            ui: {
+                hideCreate: true
+            } })  
       },
         access: {
           operation: {
@@ -31,11 +35,12 @@ export const lists = {
         fields: {
             name: text({validation: { isRequired:true }}),
             user: relationship({
-                ref: 'User',
+                ref: 'User.restaurants',
                 ui: {
                     hideCreate: true,
                     removeMode: 'disconnect',
                 },
+                many: false
             }),
         },
         access: {
@@ -44,20 +49,18 @@ export const lists = {
                 update: isAdmin,
                 delete: isAdmin,
             },
-            item: {
-                create: ({ session, inputData }) => FilterCreateOnlyForAdmin(session, inputData),
-            }
         }
     }),
     FoodCategory: list({
         fields: {
             name: text({ validation: { isRequired: true } }),
-            user: relationship({
-                ref: 'User',
+            restaurant: relationship({
+                ref: 'Restaurant',
                 ui: {
                   hideCreate: true,
                   removeMode: 'disconnect',
                 },
+                many:false
               }),
         },
         access: {
@@ -66,12 +69,9 @@ export const lists = {
                 update: isAdmin,
                 delete: isAdmin,
               },
-             filter: {
-                query: ({session}) => FilterRestaurantsFoodCategories(session),
-             },
-             item: {
-                 create: ({ session, inputData }) => FilterCreateOnlyForAdmin(session, inputData),
-             }
+            item:{
+                create: ({session, inputData, context}) => FilterCreateOnlyForAdmin(session, inputData, context)
+            }
         }
     }),
     
