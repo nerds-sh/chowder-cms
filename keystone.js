@@ -39,7 +39,7 @@ export default withAuth(
     },
     server: {
       port: 5001,
-      cors: true
+      cors: true,
     },
     ui: {
       isAccessAllowed: (context) => !!context.session,

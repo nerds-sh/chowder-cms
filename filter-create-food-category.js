@@ -12,7 +12,13 @@ export async function FilterCreateOnlyForAdmin(session, inputData, context) {
 
 export function FilterAdminFoodCategory (session) {
     
-    return { restaurant: {user: { id: {equals: session.itemId}}}}
+    if(session) { return { 
+        restaurant: {
+            user: { id: {equals: session.itemId}}
+        }} 
+    }
+   
+    return true
 }
 
 export const FilterAdminRestaurants = (session) => {

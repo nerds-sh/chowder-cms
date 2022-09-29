@@ -73,7 +73,7 @@ export const lists = {
                 delete: isAdmin,
               },
             filter: {
-                query: ({ session} ) => FilterAdminFoodCategory(session)
+                query: ({ session } ) => FilterAdminFoodCategory(session)
             },
         }
     }),
