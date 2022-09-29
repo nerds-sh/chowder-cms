@@ -43,7 +43,7 @@ export const lists = {
                 },
                 many: false
             }),
-            phone: integer({validation: { isRequired:true }}),
+            phone: text({validation: { isRequired:true }}),
             address: text({validation: { isRequired:true }}),
             email: text({validation: { isRequired:true }}),
         },
