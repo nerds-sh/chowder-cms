@@ -1,9 +1,8 @@
 import { config, list } from '@keystone-6/core';
-import { text, password, checkbox, relationship } from '@keystone-6/core/fields';
+import { text, password, checkbox, relationship, image } from '@keystone-6/core/fields';
 
-import { isAdmin, session } from './auth';
-import { FilterRestaurantsFoodCategories } from './filter-restaurant-food-categories';
-import {FilterAdminFoodCategory, FilterAdminRestaurants, FilterCreateOnlyForAdmin} from './filter-create-food-category';
+import { isAdmin } from './auth';
+import {FilterAdminFoodCategory, FilterAdminRestaurants, FilterCotegoryFood} from './filters';
 import { FilterAdminUsers } from './filter-admin-users';
 
 export const lists = {
@@ -34,6 +33,7 @@ export const lists = {
     Restaurant: list({
         fields: {
             name: text({validation: { isRequired:true }}),
+            photo: image({ storage: 'my_local_images' }),
             user: relationship({
                 ref: 'User.restaurants',
                 ui: {
@@ -77,5 +77,31 @@ export const lists = {
             },
         }
     }),
+    Food: list({
+      fields: {
+        name: text({ validation: { isRequired: true } }),
+        price: text({validation: { isRequired: true }}),
+        photo: image({ storage: 'my_local_images' }),
+        ingredients: text({validation: { isRequired: true }}),
+        category: relationship({
+            ref: 'FoodCategory',
+            ui: {
+              hideCreate: true,
+              removeMode: 'disconnect',
+            },
+            many:false
+          }),
+    },
+    access: {
+        operation: {
+            create: isAdmin,
+            update: isAdmin,
+            delete: isAdmin,
+          },
+        filter: {
+            query: ({ session } ) => FilterCotegoryFood(session)
+        },
+    }
+    })
     
   }

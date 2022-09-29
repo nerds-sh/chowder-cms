@@ -24,6 +24,11 @@ model User {
 model Restaurant {
   id                           String         @id @default(cuid())
   name                         String         @default("")
+  photo_filesize               Int?
+  photo_extension              String?
+  photo_width                  Int?
+  photo_height                 Int?
+  photo_id                     String?
   user                         User?          @relation("Restaurant_user", fields: [userId], references: [id])
   userId                       String?        @map("user")
   from_FoodCategory_restaurant FoodCategory[] @relation("FoodCategory_restaurant")
@@ -32,10 +37,28 @@ model Restaurant {
 }
 
 model FoodCategory {
-  id           String      @id @default(cuid())
-  name         String      @default("")
-  restaurant   Restaurant? @relation("FoodCategory_restaurant", fields: [restaurantId], references: [id])
-  restaurantId String?     @map("restaurant")
+  id                 String      @id @default(cuid())
+  name               String      @default("")
+  restaurant         Restaurant? @relation("FoodCategory_restaurant", fields: [restaurantId], references: [id])
+  restaurantId       String?     @map("restaurant")
+  from_Food_category Food[]      @relation("Food_category")
 
   @@index([restaurantId])
+}
+
+model Food {
+  id              String        @id @default(cuid())
+  name            String        @default("")
+  price           String        @default("")
+  description     String        @default("")
+  photo_filesize  Int?
+  photo_extension String?
+  photo_width     Int?
+  photo_height    Int?
+  photo_id        String?
+  ingredients     String        @default("")
+  category        FoodCategory? @relation("Food_category", fields: [categoryId], references: [id])
+  categoryId      String?       @map("category")
+
+  @@index([categoryId])
 }
