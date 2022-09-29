@@ -18,7 +18,7 @@ export const FilterAdminRestaurants = (session) => {
     return true  
 }
 
-export const FilterCotegoryFood = (session) => {
+export const FilterCategoryFood = (session) => {
 
     if(session){
         return {

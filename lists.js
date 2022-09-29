@@ -2,7 +2,7 @@ import { config, list } from '@keystone-6/core';
 import { text, password, checkbox, relationship, image } from '@keystone-6/core/fields';
 
 import { isAdmin } from './auth';
-import {FilterAdminFoodCategory, FilterAdminRestaurants, FilterCotegoryFood} from './filters';
+import {FilterAdminFoodCategory, FilterAdminRestaurants, FilterCategoryFood} from './filters';
 import { FilterAdminUsers } from './filter-admin-users';
 
 export const lists = {
@@ -99,7 +99,7 @@ export const lists = {
             delete: isAdmin,
           },
         filter: {
-            query: ({ session } ) => FilterCotegoryFood(session)
+            query: ({ session } ) => FilterCategoryFood(session)
         },
     }
     })
