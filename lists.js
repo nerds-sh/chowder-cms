@@ -34,6 +34,7 @@ export const lists = {
         fields: {
             name: text({validation: { isRequired:true }}),
             photo: image({ storage: 'my_local_images' }),
+            banner: image( { storage: 'my_local_images' }),
             user: relationship({
                 ref: 'User.restaurants',
                 ui: {

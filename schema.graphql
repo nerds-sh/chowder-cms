@@ -135,6 +135,7 @@ type Restaurant {
   id: ID!
   name: String
   photo: ImageFieldOutput
+  banner: ImageFieldOutput
   user: User
 }
 
@@ -175,6 +176,7 @@ input RestaurantOrderByInput {
 input RestaurantUpdateInput {
   name: String
   photo: ImageFieldInput
+  banner: ImageFieldInput
   user: UserRelateToOneForUpdateInput
 }
 
@@ -201,6 +203,7 @@ input RestaurantUpdateArgs {
 input RestaurantCreateInput {
   name: String
   photo: ImageFieldInput
+  banner: ImageFieldInput
   user: UserRelateToOneForCreateInput
 }
 

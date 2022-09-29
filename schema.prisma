@@ -29,6 +29,11 @@ model Restaurant {
   photo_width                  Int?
   photo_height                 Int?
   photo_id                     String?
+  banner_filesize              Int?
+  banner_extension             String?
+  banner_width                 Int?
+  banner_height                Int?
+  banner_id                    String?
   user                         User?          @relation("Restaurant_user", fields: [userId], references: [id])
   userId                       String?        @map("user")
   from_FoodCategory_restaurant FoodCategory[] @relation("FoodCategory_restaurant")
