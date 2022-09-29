@@ -6,7 +6,7 @@
     "dev": "keystone dev",
     "start": "keystone start",
     "build": "keystone build",
-    "postinstall": "keystone postinstall",
+    "postinstall": "keystone postinstall && keystone --seed-data",
     "seed-data": "keystone --seed-data"
   },
   "dependencies": {
