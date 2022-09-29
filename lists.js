@@ -4,7 +4,6 @@ import {text, password, checkbox, relationship, image, integer} from '@keystone-
 import { isAdmin } from './auth';
 import {FilterAdminFoodCategory, FilterAdminRestaurants, FilterCategoryFood} from './filters';
 import { FilterAdminUsers } from './filter-admin-users';
-import {validEmail} from '@keystone-6/auth/dist/declarations/src/lib/emailHeuristics'
 
 export const lists = {
     User: list({

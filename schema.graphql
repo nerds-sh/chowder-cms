@@ -137,6 +137,9 @@ type Restaurant {
   photo: ImageFieldOutput
   banner: ImageFieldOutput
   user: User
+  phone: Int
+  address: String
+  email: String
 }
 
 type ImageFieldOutput {
@@ -166,11 +169,28 @@ input RestaurantWhereInput {
   id: IDFilter
   name: StringFilter
   user: UserWhereInput
+  phone: IntFilter
+  address: StringFilter
+  email: StringFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
 }
 
 input RestaurantOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  phone: OrderDirection
+  address: OrderDirection
+  email: OrderDirection
 }
 
 input RestaurantUpdateInput {
@@ -178,6 +198,9 @@ input RestaurantUpdateInput {
   photo: ImageFieldInput
   banner: ImageFieldInput
   user: UserRelateToOneForUpdateInput
+  phone: Int
+  address: String
+  email: String
 }
 
 input ImageFieldInput {
@@ -205,6 +228,9 @@ input RestaurantCreateInput {
   photo: ImageFieldInput
   banner: ImageFieldInput
   user: UserRelateToOneForCreateInput
+  phone: Int
+  address: String
+  email: String
 }
 
 input UserRelateToOneForCreateInput {
