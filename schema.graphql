@@ -325,6 +325,66 @@ input FoodCategoryRelateToOneForCreateInput {
   connect: FoodCategoryWhereUniqueInput
 }
 
+type Review {
+  id: ID!
+  username: String
+  rate: Int
+  text: String
+  restaurant: Restaurant
+}
+
+input ReviewWhereUniqueInput {
+  id: ID
+}
+
+input ReviewWhereInput {
+  AND: [ReviewWhereInput!]
+  OR: [ReviewWhereInput!]
+  NOT: [ReviewWhereInput!]
+  id: IDFilter
+  username: StringFilter
+  rate: IntNullableFilter
+  text: StringFilter
+  restaurant: RestaurantWhereInput
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input ReviewOrderByInput {
+  id: OrderDirection
+  username: OrderDirection
+  rate: OrderDirection
+  text: OrderDirection
+}
+
+input ReviewUpdateInput {
+  username: String
+  rate: Int
+  text: String
+  restaurant: RestaurantRelateToOneForUpdateInput
+}
+
+input ReviewUpdateArgs {
+  where: ReviewWhereUniqueInput!
+  data: ReviewUpdateInput!
+}
+
+input ReviewCreateInput {
+  username: String
+  rate: Int
+  text: String
+  restaurant: RestaurantRelateToOneForCreateInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -364,6 +424,12 @@ type Mutation {
   updateFoods(data: [FoodUpdateArgs!]!): [Food]
   deleteFood(where: FoodWhereUniqueInput!): Food
   deleteFoods(where: [FoodWhereUniqueInput!]!): [Food]
+  createReview(data: ReviewCreateInput!): Review
+  createReviews(data: [ReviewCreateInput!]!): [Review]
+  updateReview(where: ReviewWhereUniqueInput!, data: ReviewUpdateInput!): Review
+  updateReviews(data: [ReviewUpdateArgs!]!): [Review]
+  deleteReview(where: ReviewWhereUniqueInput!): Review
+  deleteReviews(where: [ReviewWhereUniqueInput!]!): [Review]
   endSession: Boolean!
   authenticateUserWithPassword(
     email: String!
@@ -426,6 +492,14 @@ type Query {
   ): [Food!]
   food(where: FoodWhereUniqueInput!): Food
   foodsCount(where: FoodWhereInput! = {}): Int
+  reviews(
+    where: ReviewWhereInput! = {}
+    orderBy: [ReviewOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Review!]
+  review(where: ReviewWhereUniqueInput!): Review
+  reviewsCount(where: ReviewWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

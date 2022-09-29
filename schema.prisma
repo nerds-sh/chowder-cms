@@ -37,6 +37,7 @@ model Restaurant {
   user                         User?          @relation("Restaurant_user", fields: [userId], references: [id])
   userId                       String?        @map("user")
   from_FoodCategory_restaurant FoodCategory[] @relation("FoodCategory_restaurant")
+  from_Review_restaurant       Review[]       @relation("Review_restaurant")
 
   @@index([userId])
 }
@@ -65,4 +66,15 @@ model Food {
   categoryId      String?       @map("category")
 
   @@index([categoryId])
+}
+
+model Review {
+  id           String      @id @default(cuid())
+  username     String      @default("")
+  rate         Int?
+  text         String      @default("")
+  restaurant   Restaurant? @relation("Review_restaurant", fields: [restaurantId], references: [id])
+  restaurantId String?     @map("restaurant")
+
+  @@index([restaurantId])
 }

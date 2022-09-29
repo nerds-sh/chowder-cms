@@ -1,9 +1,10 @@
 import { config, list } from '@keystone-6/core';
-import { text, password, checkbox, relationship, image } from '@keystone-6/core/fields';
+import {text, password, checkbox, relationship, image, integer} from '@keystone-6/core/fields'
 
 import { isAdmin } from './auth';
 import {FilterAdminFoodCategory, FilterAdminRestaurants, FilterCategoryFood} from './filters';
 import { FilterAdminUsers } from './filter-admin-users';
+import {validEmail} from '@keystone-6/auth/dist/declarations/src/lib/emailHeuristics'
 
 export const lists = {
     User: list({
@@ -18,7 +19,7 @@ export const lists = {
         restaurants: relationship({ ref: "Restaurant.user", many: true, 
             ui: {
                 hideCreate: true
-            } })
+            } }),
       },
         access: {
           operation: {
@@ -43,6 +44,9 @@ export const lists = {
                 },
                 many: false
             }),
+            phone: integer({validation: { isRequired:true }}),
+            address: text({validation: { isRequired:true }}),
+            email: text({validation: { isRequired:true }}),
         },
         access: {
             operation: {
@@ -103,6 +107,27 @@ export const lists = {
             query: ({ session } ) => FilterCategoryFood(session)
         },
     }
+    }),
+
+    Review: list({
+        fields: {
+            username: text({ validation: { isRequired: false } }),
+            rate: integer({ validation: { isRequired: false } }),
+            text: text({ validation: { isRequired: false } }),
+            restaurant: relationship({
+                ref: 'Restaurant',
+                ui: {
+                    hideCreate: true,
+                    removeMode: 'disconnect',
+                },
+                many:false
+            })
+        },
+        access: {
+            operation: {
+                create: isAdmin,
+            },
+        }
     })
     
   }
