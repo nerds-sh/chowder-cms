@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage } from '@keystone-6/core/'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
