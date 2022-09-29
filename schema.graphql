@@ -263,7 +263,6 @@ type Food {
   id: ID!
   name: String
   price: String
-  description: String
   photo: ImageFieldOutput
   ingredients: String
   category: FoodCategory
@@ -280,7 +279,6 @@ input FoodWhereInput {
   id: IDFilter
   name: StringFilter
   price: StringFilter
-  description: StringFilter
   ingredients: StringFilter
   category: FoodCategoryWhereInput
 }
@@ -289,14 +287,12 @@ input FoodOrderByInput {
   id: OrderDirection
   name: OrderDirection
   price: OrderDirection
-  description: OrderDirection
   ingredients: OrderDirection
 }
 
 input FoodUpdateInput {
   name: String
   price: String
-  description: String
   photo: ImageFieldInput
   ingredients: String
   category: FoodCategoryRelateToOneForUpdateInput
@@ -316,7 +312,6 @@ input FoodUpdateArgs {
 input FoodCreateInput {
   name: String
   price: String
-  description: String
   photo: ImageFieldInput
   ingredients: String
   category: FoodCategoryRelateToOneForCreateInput
