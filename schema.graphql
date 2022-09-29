@@ -137,7 +137,7 @@ type Restaurant {
   photo: ImageFieldOutput
   banner: ImageFieldOutput
   user: User
-  phone: Int
+  phone: String
   address: String
   email: String
 }
@@ -169,20 +169,9 @@ input RestaurantWhereInput {
   id: IDFilter
   name: StringFilter
   user: UserWhereInput
-  phone: IntFilter
+  phone: StringFilter
   address: StringFilter
   email: StringFilter
-}
-
-input IntFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: IntFilter
 }
 
 input RestaurantOrderByInput {
@@ -198,7 +187,7 @@ input RestaurantUpdateInput {
   photo: ImageFieldInput
   banner: ImageFieldInput
   user: UserRelateToOneForUpdateInput
-  phone: Int
+  phone: String
   address: String
   email: String
 }
@@ -228,7 +217,7 @@ input RestaurantCreateInput {
   photo: ImageFieldInput
   banner: ImageFieldInput
   user: UserRelateToOneForCreateInput
-  phone: Int
+  phone: String
   address: String
   email: String
 }
@@ -411,6 +400,66 @@ input ReviewCreateInput {
   restaurant: RestaurantRelateToOneForCreateInput
 }
 
+type FoodReview {
+  id: ID!
+  username: String
+  rate: Int
+  text: String
+  food: Food
+}
+
+input FoodReviewWhereUniqueInput {
+  id: ID
+}
+
+input FoodReviewWhereInput {
+  AND: [FoodReviewWhereInput!]
+  OR: [FoodReviewWhereInput!]
+  NOT: [FoodReviewWhereInput!]
+  id: IDFilter
+  username: StringFilter
+  rate: IntNullableFilter
+  text: StringFilter
+  food: FoodWhereInput
+}
+
+input FoodReviewOrderByInput {
+  id: OrderDirection
+  username: OrderDirection
+  rate: OrderDirection
+  text: OrderDirection
+}
+
+input FoodReviewUpdateInput {
+  username: String
+  rate: Int
+  text: String
+  food: FoodRelateToOneForUpdateInput
+}
+
+input FoodRelateToOneForUpdateInput {
+  create: FoodCreateInput
+  connect: FoodWhereUniqueInput
+  disconnect: Boolean
+}
+
+input FoodReviewUpdateArgs {
+  where: FoodReviewWhereUniqueInput!
+  data: FoodReviewUpdateInput!
+}
+
+input FoodReviewCreateInput {
+  username: String
+  rate: Int
+  text: String
+  food: FoodRelateToOneForCreateInput
+}
+
+input FoodRelateToOneForCreateInput {
+  create: FoodCreateInput
+  connect: FoodWhereUniqueInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -456,6 +505,15 @@ type Mutation {
   updateReviews(data: [ReviewUpdateArgs!]!): [Review]
   deleteReview(where: ReviewWhereUniqueInput!): Review
   deleteReviews(where: [ReviewWhereUniqueInput!]!): [Review]
+  createFoodReview(data: FoodReviewCreateInput!): FoodReview
+  createFoodReviews(data: [FoodReviewCreateInput!]!): [FoodReview]
+  updateFoodReview(
+    where: FoodReviewWhereUniqueInput!
+    data: FoodReviewUpdateInput!
+  ): FoodReview
+  updateFoodReviews(data: [FoodReviewUpdateArgs!]!): [FoodReview]
+  deleteFoodReview(where: FoodReviewWhereUniqueInput!): FoodReview
+  deleteFoodReviews(where: [FoodReviewWhereUniqueInput!]!): [FoodReview]
   endSession: Boolean!
   authenticateUserWithPassword(
     email: String!
@@ -526,6 +584,14 @@ type Query {
   ): [Review!]
   review(where: ReviewWhereUniqueInput!): Review
   reviewsCount(where: ReviewWhereInput! = {}): Int
+  foodReviews(
+    where: FoodReviewWhereInput! = {}
+    orderBy: [FoodReviewOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [FoodReview!]
+  foodReview(where: FoodReviewWhereUniqueInput!): FoodReview
+  foodReviewsCount(where: FoodReviewWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

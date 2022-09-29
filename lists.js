@@ -127,6 +127,26 @@ export const lists = {
                 create: isAdmin,
             },
         }
+    }),
+    FoodReview: list({
+        fields: {
+            username: text({ validation: { isRequired: false } }),
+            rate: integer({ validation: { isRequired: false } }),
+            text: text({ validation: { isRequired: false } }),
+            food: relationship({
+                ref: 'Food',
+                ui: {
+                    hideCreate: true,
+                    removeMode: 'disconnect',
+                },
+                many:false
+            })
+        },
+        access: {
+            operation: {
+                create: isAdmin,
+            },
+        }
     })
     
   }

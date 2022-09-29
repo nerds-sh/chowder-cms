@@ -36,7 +36,7 @@ model Restaurant {
   banner_id                    String?
   user                         User?          @relation("Restaurant_user", fields: [userId], references: [id])
   userId                       String?        @map("user")
-  phone                        Int
+  phone                        String         @default("")
   address                      String         @default("")
   email                        String         @default("")
   from_FoodCategory_restaurant FoodCategory[] @relation("FoodCategory_restaurant")
@@ -56,17 +56,18 @@ model FoodCategory {
 }
 
 model Food {
-  id              String        @id @default(cuid())
-  name            String        @default("")
-  price           String        @default("")
-  photo_filesize  Int?
-  photo_extension String?
-  photo_width     Int?
-  photo_height    Int?
-  photo_id        String?
-  ingredients     String        @default("")
-  category        FoodCategory? @relation("Food_category", fields: [categoryId], references: [id])
-  categoryId      String?       @map("category")
+  id                   String        @id @default(cuid())
+  name                 String        @default("")
+  price                String        @default("")
+  photo_filesize       Int?
+  photo_extension      String?
+  photo_width          Int?
+  photo_height         Int?
+  photo_id             String?
+  ingredients          String        @default("")
+  category             FoodCategory? @relation("Food_category", fields: [categoryId], references: [id])
+  categoryId           String?       @map("category")
+  from_FoodReview_food FoodReview[]  @relation("FoodReview_food")
 
   @@index([categoryId])
 }
@@ -80,4 +81,15 @@ model Review {
   restaurantId String?     @map("restaurant")
 
   @@index([restaurantId])
+}
+
+model FoodReview {
+  id       String  @id @default(cuid())
+  username String  @default("")
+  rate     Int?
+  text     String  @default("")
+  food     Food?   @relation("FoodReview_food", fields: [foodId], references: [id])
+  foodId   String? @map("food")
+
+  @@index([foodId])
 }
