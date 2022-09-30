@@ -29,8 +29,6 @@ const restaurantsData = get(data, 'restaurants', [])
 const isDisabled = isEmpty(restaurant)
 const handleChange = (event) => setRestaurant(event.target.value)
 
-  console.log('Qr image: ', qrImage)
-
 return( <PageContainer header={<Heading type="h3">Generate QR code</Heading>}>
 <Typography variant={'h5'} sx={{marginTop: 2, marginButtom: 2}}>Generate a QR code for your restaurants</Typography>
     <Box sx={{ maxWidth: 200, marginTop: 4 }}>
@@ -38,7 +36,7 @@ return( <PageContainer header={<Heading type="h3">Generate QR code</Heading>}>
         <InputLabel>Restaurants</InputLabel>
         <Select value={restaurant.name} label="Restaurants" onChange={handleChange}>
           {
-            restaurantsData.map((restaurant, index) => <MenuItem key={index} value={{ name: restaurant.name, id: restaurant.id }}>{restaurant.name}</MenuItem>)
+            restaurantsData.map((restaurant, index) => <MenuItem key={index} value={restaurant.name}>{restaurant.name}</MenuItem>)
           }
         </Select>
       </FormControl>
